@@ -10,8 +10,10 @@ from webdriver_manager.chrome import ChromeDriverManager
 # Buraya hedef kanalın linkini yapıştır
 KANAL_LINKI = "https://kick.com/dantesofficial" 
 
-# Opera GX'in bilgisayarındaki yolu (Genellikle bu yoldadır, değilse değiştirin)
-OPERA_PATH = os.path.expanduser(r"~\AppData\Local\Programs\Opera GX\launcher.exe")
+# Opera GX'in bilgisayarındaki yolu. 
+# NOT: Kısayol (.lnk) yerine doğrudan .exe dosyasını göstermelisin. 
+# Kullanıcı adın "Deniz D" olduğu için yolu buna göre düzenledim.
+OPERA_PATH = r"C:\Users\Deniz D\AppData\Local\Programs\Opera GX\launcher.exe"
 # ----------------
 
 def run_bot():
@@ -24,7 +26,8 @@ def run_bot():
     # Opera, Chrome altyapısını kullandığı için Chrome ayarlarıyla çalışır
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    # Arka planda çalışmasını istersen aşağıdaki satırı aktif edebilirsin:
+    
+    # Pencerenin görünmesini istemiyorsan aşağıdaki satırın başındaki '#' işaretini kaldır:
     # options.add_argument("--headless") 
 
     try:
@@ -40,8 +43,7 @@ def run_bot():
         
         print("Kanal acildi. Islemler yapiliyor...")
         
-        # Burada yapmak istediğin işlemleri (scroll, tıklama vb.) koda ekleyebilirsin
-        # Örnek: Sayfayı aşağı kaydır
+        # Sayfayı aşağı kaydır (Örnek işlem)
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
         time.sleep(3)
         
@@ -55,9 +57,13 @@ def run_bot():
         if "cannot find Chrome binary" in str(e) or "binary" in str(e):
             print("\nUYARI: Opera GX belirtilen yolda bulunamadi!")
             print(f"Lutfen su yolu kontrol et: {OPERA_PATH}")
+            print("Eger Opera GX farkli bir klasordeyse OPERA_PATH kısmını güncellemelisin.")
 
 if __name__ == "__main__":
+    # Dosya yolunun varlığını kontrol et
     if not os.path.exists(OPERA_PATH):
-        print(f"HATA: Opera GX yuklu degil veya yol yanlis!\nAranan yol: {OPERA_PATH}")
+        print(f"HATA: Opera GX belirtilen yolda bulunamadi!\nAranan yol: {OPERA_PATH}")
+        print("\nİpucu: Opera GX genellikle şu yoldadır:")
+        print(r"C:\Users\KULLANICI_ADIN\AppData\Local\Programs\Opera GX\launcher.exe")
     else:
         run_bot()
